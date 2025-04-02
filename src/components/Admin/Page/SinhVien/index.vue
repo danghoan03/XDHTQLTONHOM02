@@ -46,9 +46,11 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <h4><i @click="Object.assign(editSV, value)" class="bi bi-pencil-square text-info mr-2"
+                                                    <h4><i @click="Object.assign(editSV, value)"
+                                                            class="bi bi-pencil-square text-info mr-2"
                                                             data-toggle="modal" data-target="#editSinhVien"></i></h4>
-                                                    <h4><i @click="Object.assign(delSV, value)" class="bi bi-trash3 text-danger" data-toggle="modal"
+                                                    <h4><i @click="Object.assign(delSV, value)"
+                                                            class="bi bi-trash3 text-danger" data-toggle="modal"
                                                             data-target="#delSinhVien"></i></h4>
                                                 </div>
                                             </td>
@@ -99,14 +101,16 @@
                             </div>
                             <div class="mb-2">
                                 <label class="text-dark"><b>Thông tin chung</b></label>
-                                <textarea v-model="student.thong_tin_chung" class="form-control" name="" rows="5"></textarea>
+                                <textarea v-model="student.thong_tin_chung" class="form-control" name=""
+                                    rows="5"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button @click="addSinhVien()" type="button" class="btn btn-primary" data-dismiss="modal">Thêm Mới</button>
+                    <button @click="addSinhVien()" type="button" class="btn btn-primary" data-dismiss="modal">Thêm
+                        Mới</button>
                 </div>
             </div>
         </div>
@@ -144,7 +148,8 @@
                             </div>
                             <div class="mb-2">
                                 <label class="text-dark"><b>Thông tin chung</b></label>
-                                <textarea v-model="editSV.thong_tin_chung" class="form-control" name="" rows="5"></textarea>
+                                <textarea v-model="editSV.thong_tin_chung" class="form-control" name=""
+                                    rows="5"></textarea>
                             </div>
                         </div>
                     </div>
@@ -184,15 +189,15 @@ import { toast } from "vue3-toastify";
 export default {
     data() {
         return {
-            student : {
-                anh_dai_dien    : "",
-                ho_va_ten       : "",
-                ma_sinh_vien    : "",
-                email           : "",
-                password        : "",
-                so_dien_thoai   : "",
-                thong_tin_chung : "",
-                trang_thai      : ""
+            student: {
+                anh_dai_dien: "",
+                ho_va_ten: "",
+                ma_sinh_vien: "",
+                email: "",
+                password: "",
+                so_dien_thoai: "",
+                thong_tin_chung: "",
+                trang_thai: ""
             },
             students: [
                 {
@@ -203,7 +208,7 @@ export default {
                     email: "nguyenvana@example.com",
                     password: "123456",
                     so_dien_thoai: "0123456789",
-                    thong_tin_chung : "Sinh viên ngành CNPM",
+                    thong_tin_chung: "Sinh viên ngành CNPM",
                     trang_thai: 1
                 },
                 {
@@ -214,7 +219,7 @@ export default {
                     email: "tranthib@example.com",
                     password: "123456",
                     so_dien_thoai: "0987654321",
-                    thong_tin_chung : "Sinh viên ngành CNPM",
+                    thong_tin_chung: "Sinh viên ngành CNPM",
                     trang_thai: 1
                 },
                 {
@@ -225,7 +230,7 @@ export default {
                     email: "levanc@example.com",
                     password: "123456",
                     so_dien_thoai: "0912345678",
-                    thong_tin_chung : "Sinh viên ngành CNPM",
+                    thong_tin_chung: "Sinh viên ngành CNPM",
                     trang_thai: 0
                 },
                 {
@@ -236,7 +241,7 @@ export default {
                     email: "phamthid@example.com",
                     password: "123456",
                     so_dien_thoai: "0934567890",
-                    thong_tin_chung : "Sinh viên ngành CNPM",
+                    thong_tin_chung: "Sinh viên ngành CNPM",
                     trang_thai: 1
                 },
                 {
@@ -247,7 +252,7 @@ export default {
                     email: "hoangvane@example.com",
                     password: "123456",
                     so_dien_thoai: "0945678901",
-                    thong_tin_chung : "Sinh viên ngành CNPM",
+                    thong_tin_chung: "Sinh viên ngành CNPM",
                     trang_thai: 0
                 }
             ],
@@ -256,32 +261,32 @@ export default {
         }
     },
     mounted() {
-        
+
     },
     methods: {
-        loadData(){
+        loadData() {
 
         },
-        addSinhVien(){
+        addSinhVien() {
             this.students.push(this.student);
             toast("Thành công!", {
                 type: "success",
                 position: "top-right",
             });
             this.student = {
-                anh_dai_dien    : "",
-                ho_va_ten       : "",
-                ma_sinh_vien    : "",
-                email           : "",
-                so_dien_thoai   : "",
-                trang_thai      : ""
+                anh_dai_dien: "",
+                ho_va_ten: "",
+                ma_sinh_vien: "",
+                email: "",
+                so_dien_thoai: "",
+                trang_thai: ""
             };
         },
-        editSinhVien(){
+        editSinhVien() {
 
         },
-        delSinhVien(){
-            
+        delSinhVien() {
+
         },
     },
 }

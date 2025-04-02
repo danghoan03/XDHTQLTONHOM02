@@ -1,9 +1,9 @@
 <template>
-    <TopGiangVien></TopGiangVien>
+    <TopSinhVien></TopSinhVien>
     <div class="main-container" id="container">
         <div class="overlay"></div>
         <div class="search-overlay"></div>
-        <MenuGiangVien></MenuGiangVien>
+       <!-- <MenuSinhVien></MenuSinhVien> -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
                 <router-view></router-view>
@@ -18,7 +18,7 @@ import "../../assets/js/app.js";
 import TopSinhVien from "../components/TopSinhVien.vue";
 import MenuSinhVien from "../components/MenuSinhVien.vue";
 export default {
-    name        :   "#app",
+    name        :   "#sinhvien-layout",
     components  :   {
         TopSinhVien,    MenuSinhVien
     }

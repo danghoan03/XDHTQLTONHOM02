@@ -41,6 +41,7 @@ const routes = [
             {path : 'mon-hoc', component: ()=>import('../components/GiangVien/Page/MonHoc/index.vue')},
             {path : 'cau-hoi', component: ()=>import('../components/GiangVien/Page/CauHoi/index.vue')},
             {path : 'bai-thi', component: ()=>import('../components/GiangVien/Page/BaiThi/index.vue')},
+            {path : 'login', component: ()=>import('../components/GiangVien/Page/Login/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO SINH VIÊN
@@ -54,6 +55,7 @@ const routes = [
             {path : 'chi-tiet-lop-hoc', component: ()=>import('../components/SinhVien/Page/ChiTietLopHoc/index.vue')},
             {path : 'ket-qua', component: ()=>import('../components/SinhVien/Page/KetQua/index.vue')},
             {path : 'bai-thi', component: ()=>import('../components/SinhVien/Page/BaiThi/index.vue')},
+            {path : 'login', component: ()=>import('../components/SinhVien/Page/Login/index.vue')},
         ]
     },
 ]
