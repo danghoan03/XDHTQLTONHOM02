@@ -11,7 +11,12 @@ const routes = [
     {
         path : '/login',
         component: ()=>import('../layout/wrapper/index_blank.vue'),
-        meta :  {layout :   "blank"}
+        meta :  {layout :   "blank"},
+        children: [
+            {path : 'admin', component: ()=>import('../components/Admin/Page/Login/index.vue')},
+            {path : 'giang-vien', component: ()=>import('../components/GiangVien/Page/Login/index.vue')},
+            {path : 'sinh-vien', component: ()=>import('../components/SinhVien/Page/Login/index.vue')},
+        ]
     },
     //NHÓM ROUTE CHO ADMIN
     {

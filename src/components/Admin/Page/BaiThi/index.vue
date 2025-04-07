@@ -1,13 +1,14 @@
 <template>
-    <div class="container-fluid">
+    <div class="wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card mt-2">
+                <div class="card mt-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
                                 <label class="text-dark"><b>Tìm Kiếm Bài Thi</b></label>
-                                <input type="text" class="form-control" placeholder="Tìm kiếm bài thi...." aria-label="Username" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder="Tìm kiếm bài thi...."
+                                    aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                             <div class="col-md-3">
                                 <label class="text-dark"><b>Lọc Theo Môn Học</b></label>
@@ -46,7 +47,8 @@
                     <div class="card-header bg-white">
                         <div class="d-flex justify-content-between">
                             <h4 class="mb-0 mt-1"><b>Danh Sách Bài Thi</b></h4>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addLopHoc">Thêm Mới Bài Thi</button>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addBaiThi">Thêm Mới Bài
+                                Thi</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -74,28 +76,31 @@
                                                 <table class="table table-bordered">
                                                     <tbody>
                                                         <tr class="text-center">
-                                                            <td><b>Bắt đầu:</b> {{ formatDate(value.thoi_gian_bat_dau) }}</td>
+                                                            <td><b>Bắt đầu:</b> {{ formatDate(value.thoi_gian_bat_dau)
+                                                            }}</td>
                                                         </tr>
                                                         <tr class="text-center">
-                                                            <td><b>Kết thúc:</b> {{ formatDate(value.thoi_gian_ket_thuc) }}</td>
+                                                            <td><b>Kết thúc:</b> {{ formatDate(value.thoi_gian_ket_thuc)
+                                                            }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <button v-if="value.trang_thai == 1" class="btn btn-success">Hoạt Động</button>
+                                                <button v-if="value.trang_thai == 1" class="btn btn-success">Hoạt
+                                                    Động</button>
                                                 <button v-else class="btn btn-warning">Tạm Ngưng</button>
                                             </td>
                                             <td class="align-middle text-center text-nowrap">
                                                 <div class="btn-group">
                                                     <h4><i class="bi bi-pencil-square text-info mr-2"
-                                                        data-toggle="modal" data-target="#editBaiThi"></i></h4>
+                                                            data-toggle="modal" data-target="#editBaiThi"></i></h4>
                                                     <h4><i class="bi bi-trash3 text-danger mr-2" data-toggle="modal"
                                                             data-target="#delBaiThi"></i></h4>
-                                                    <h4><i class="bi bi-people-fill text-success mr-2" data-toggle="modal"
-                                                        data-target="#listSV"></i></h4>
-                                                    <h4><i class="bi bi-box-arrow-right text-warning" data-toggle="modal"
-                                                        data-target="#enterBaiThi"></i></h4>
+                                                    <h4><i class="bi bi-people-fill text-success mr-2"
+                                                            data-toggle="modal" data-target="#listSV"></i></h4>
+                                                    <h4><i class="bi bi-box-arrow-in-right text-warning"
+                                                            data-toggle="modal" data-target="#enterBaiThi"></i></h4>
                                                 </div>
                                             </td>
                                         </tr>
@@ -110,38 +115,65 @@
     </div>
     <!-- Modal Add-->
     <div class="modal fade" id="addBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Môn Học</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Bài Thi</b></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Tên Môn Học</b></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Mã Môn Học</b></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Mã Số Môn Học</b></label>
-                        <input class="form-control" type="number">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Số Tín Chỉ</b></label>
-                        <input class="form-control" type="number">
-                    </div>
-                    <div class="">
-                        <label class="text-dark"><b>Trạng Thái</b></label>
-                        <select class="placeholder form-control">
-                            <option>Chọn trạng thái...</option>
-                            <option value="1">Đang Hoạt Động</option>
-                            <option value="0">Ngưng Hoạt Động</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Tên Bài Thi</b></label>
+                                <input class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Lớp Học</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn lớp học...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Thời Gian Bắt Đầu</b></label>
+                                <input class="form-control" type="datetime-local">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Mật Khẩu</b> (nếu có)</label>
+                                <input class="form-control" type="number">
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Môn Học</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn môn học...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Loại Bài Thi</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn loại bài thi...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Thời Gian Kết Thúc</b></label>
+                                <input class="form-control" type="datetime-local">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Trạng Thái</b></label>
+                                <select class="form-control">
+                                    <option selected>Đang Hoạt Động</option>
+                                    <option value="0">Ngưng Hoạt Động</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -153,38 +185,65 @@
     </div>
     <!-- Modal Edit-->
     <div class="modal fade" id="editBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <h5 class="modal-title text-white" id="exampleModalLabel"><b>Cập Nhật</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Tên Môn Học</b></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Mã Môn Học</b></label>
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Mã Số Môn Học</b></label>
-                        <input class="form-control" type="number">
-                    </div>
-                    <div class="mb-2">
-                        <label class="text-dark"><b>Số Tín Chỉ</b></label>
-                        <input class="form-control" type="number">
-                    </div>
-                    <div class="">
-                        <label class="text-dark"><b>Trạng Thái</b></label>
-                        <select class="placeholder form-control">
-                            <option>Chọn trạng thái...</option>
-                            <option value="1">Đang Hoạt Động</option>
-                            <option value="0">Ngưng Hoạt Động</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Tên Bài Thi</b></label>
+                                <input class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Lớp Học</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn lớp học...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Thời Gian Bắt Đầu</b></label>
+                                <input class="form-control" type="datetime-local">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Mật Khẩu</b> (nếu có)</label>
+                                <input class="form-control" type="number">
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Môn Học</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn môn học...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Loại Bài Thi</b></label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn loại bài thi...</option>
+                                    <option value="1">Đang Hoạt Động</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Thời Gian Kết Thúc</b></label>
+                                <input class="form-control" type="datetime-local">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Trạng Thái</b></label>
+                                <select class="form-control">
+                                    <option selected>Đang Hoạt Động</option>
+                                    <option value="0">Ngưng Hoạt Động</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -199,7 +258,9 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nhập Câu Hỏi Cho Bài Thi <b class="text-danger">Hello</b> của môn <b>Hi! I'm Fine</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Nhập Câu Hỏi Cho Bài Thi <b
+                            class="text-danger">Hello</b>
+                        của môn <b>Hi! I'm Fine</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -222,7 +283,8 @@
                                         <div class="col-5">
                                             <div class="form-group mb-2">
                                                 <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1" :max="10 - 0">
+                                                <input type="number" class="form-control" min="0" step="0.1"
+                                                    :max="10 - 0">
                                             </div>
                                         </div>
                                     </div>
@@ -248,7 +310,8 @@
                                         <div class="col-5">
                                             <div class="form-group mb-2">
                                                 <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1" :max="10 - 0">
+                                                <input type="number" class="form-control" min="0" step="0.1"
+                                                    :max="10 - 0">
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +337,8 @@
                                         <div class="col-5">
                                             <div class="form-group mb-2">
                                                 <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1" :max="10 - 0">
+                                                <input type="number" class="form-control" min="0" step="0.1"
+                                                    :max="10 - 0">
                                             </div>
                                         </div>
                                     </div>
@@ -293,15 +357,16 @@
                         </div>
                         <div class="col-md-4 mb-0">
                             <div class="d-flex justify-content-start">
-                                <label class="switch s-icons s-outline s-outline-default mb-0 mr-2">
+                                <label class="switch s-icons s-outline s-outline-primary mr-1">
                                     <input type="checkbox" checked>
                                     <span class="slider round"></span>
                                 </label>
-                                <h6>Tạo đề tự động</h6>
+                                <h6 class="mt-1">Tạo đề tự động</h6>
                             </div>
                         </div>
                         <div class="col-md-4 mb-0">
-                            <button class="btn btn-info w-100"><i class="bi bi-patch-plus mr-2"></i>Nhập Câu Hỏi</button>
+                            <button class="btn btn-info w-100"><i class="bi bi-patch-plus mr-2"></i>Nhập Câu
+                                Hỏi</button>
                         </div>
                     </div>
                 </div>
@@ -312,13 +377,51 @@
             </div>
         </div>
     </div>
+     <!-- Modal list SV-->
+     <div class="modal fade" id="listSV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Danh Sách Sinh Viên Lớp <b class="text-danger">ENG</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr class="text-center">
+                                <th class="text-dark">#</th>
+                                <th class="text-dark">Mã Sinh Viên</th>
+                                <th class="text-dark">Họ Và Tên</th>
+                                <th class="text-dark">Email</th>
+                                <th class="text-dark">Số Điện Thoại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Del-->
     <div class="modal fade" id="delBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
                     <h5 class="modal-title text-white" id="exampleModalLabel"><b>Xóa Môn Học</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -337,86 +440,28 @@
 </template>
 <script>
 import moment from "moment";
+import { toast } from "vue3-toastify";
+
 export default {
     data() {
         return {
-            exam: {
-                ten_bai_thi: "",
-                //id_loai_bai_thi: "",
-                thoi_gian_bat_dau: "",
-                thoi_gian_ket_thuc: "",
-                // id_giang_vien: "",
-                id_mon_hoc: "",
-                id_lop_hoc: "",
-                // mat_khau: "",
-                trang_thai: "",
+            
+            create: {
+                ten_bai_thi         : "",
+                id_loai_bai_thi     : "",
+                thoi_gian_bat_dau   : "",
+                thoi_gian_ket_thuc  : "",
+                id_giang_vien       : "",
+                id_mon_hoc          : "",
+                id_lop_hoc          : "",
+                mat_khau            : "",
+                trang_thai          : "",
             },
-            exams: [
-                {
-                    id: 1,
-                    ten_bai_thi: "Bài Thi Giữa Kỳ",
-                    //id_loai_bai_thi: 1, // ID loại bài thi
-                    thoi_gian_bat_dau: "2025-04-10 08:00:00",
-                    thoi_gian_ket_thuc: "2025-04-10 10:00:00",
-                    //id_giang_vien: 1, // ID giảng viên
-                    id_mon_hoc: 1, // ID môn học
-                    id_lop_hoc: 1, // ID lớp học
-                    //mat_khau: "123456",
-                    trang_thai: 1 // 1: Hoạt động, 0: Ngừng hoạt động
-                },
-                {
-                    id: 2,
-                    ten_bai_thi: "Bài Thi Cuối Kỳ",
-                    //id_loai_bai_thi: 2,
-                    thoi_gian_bat_dau: "2025-05-20 13:00:00",
-                    thoi_gian_ket_thuc: "2025-05-20 15:00:00",
-                    //id_giang_vien: 2,
-                    id_mon_hoc: 2,
-                    id_lop_hoc: 2,
-                    //mat_khau: "abcdef",
-                    trang_thai: 1
-                },
-                {
-                    id: 3,
-                    ten_bai_thi: "Bài Kiểm Tra 15 Phút",
-                    //id_loai_bai_thi: 3,
-                    thoi_gian_bat_dau: "2025-04-15 09:00:00",
-                    thoi_gian_ket_thuc: "2025-04-15 09:15:00",
-                    //id_giang_vien: 3,
-                    id_mon_hoc: 3,
-                    id_lop_hoc: 3,
-                    //mat_khau: "qwerty",
-                    trang_thai: 0
-                },
-                {
-                    id: 4,
-                    ten_bai_thi: "Bài Kiểm Tra 1 Tiết",
-                    //id_loai_bai_thi: 4,
-                    thoi_gian_bat_dau: "2025-04-18 10:00:00",
-                    thoi_gian_ket_thuc: "2025-04-18 11:00:00",
-                    //id_giang_vien: 4,
-                    id_mon_hoc: 4,
-                    id_lop_hoc: 4,
-                    //mat_khau: "zxcvbn",
-                    trang_thai: 1
-                },
-                {
-                    id: 5,
-                    ten_bai_thi: "Bài Thi Thực Hành",
-                    //id_loai_bai_thi: 5,
-                    thoi_gian_bat_dau: "2025-04-25 14:00:00",
-                    thoi_gian_ket_thuc: "2025-04-25 16:00:00",
-                    //id_giang_vien: 5,
-                    id_mon_hoc: 5,
-                    id_lop_hoc: 5,
-                    //mat_khau: "pass123",
-                    trang_thai: 1
-                }
-            ],
+            exams: [],
         }
     },
     mounted() {
-        
+
     },
     methods: {
         formatDate(date) {
@@ -425,6 +470,4 @@ export default {
     },
 }
 </script>
-<style>
-    
-</style>
+<style></style>

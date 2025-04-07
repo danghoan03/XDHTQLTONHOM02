@@ -20,3 +20,4 @@ app.component("blank-layout", Blank);
 app.component("giangvien-layout", GiangVien);
 app.component("sinhvien-layout", SinhVien);
 app.mount("#app")
+app.mount("#login")

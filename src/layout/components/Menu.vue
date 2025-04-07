@@ -15,9 +15,11 @@
             <ul class="list-unstyled menu-categories" id="topAccordion">
 
                 <li class="menu single-menu active">
-                    <a href="/admin/homepage">
-                        <span><i class="bi bi-house mr-1"></i>Dashboard</span>
-                    </a>
+                    <router-link to="/admin/homepage">
+                        <a href="/admin/homepage">
+                            <span><i class="bi bi-house mr-1"></i>Dashboard</span>
+                        </a>
+                    </router-link>
                 </li>
                 <li class="menu single-menu">
                     <a href="#quanlychung" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -30,31 +32,45 @@
                     </a>
                     <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
                         <li>
-                            <a href="/admin/giang-vien"> Quản Lý Giảng Viên </a>
+                            <router-link to="/admin/giang-vien">
+                                <a href="/admin/giang-vien"> Quản Lý Giảng Viên </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="/admin/sinh-vien"> Quản Lý Sinh Viên </a>
+                            <router-link to="/admin/sinh-vien">
+                                <a href="/admin/sinh-vien"> Quản Lý Sinh Viên </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="/admin/lop-hoc"> Quản Lý Lớp Học </a>
+                            <router-link to="/admin/lop-hoc">
+                                <a href="/admin/lop-hoc"> Quản Lý Lớp Học </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="/admin/loai-bai-thi"> Quản Lý Loại Bài Thi </a>
+                            <router-link to="/admin/loai-bai-thi">
+                                <a href="/admin/loai-bai-thi"> Quản Lý Loại Bài Thi </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a href="/admin/mon-hoc"> Quản Lý Môn Học </a>
+                            <router-link to="/admin/mon-hoc">
+                                <a href="/admin/mon-hoc"> Quản Lý Môn Học </a>
+                            </router-link>
                         </li>
                     </ul>
                 </li>
                 <li class="menu single-menu">
-                    <a href="/admin/cau-hoi">
-                        <span><i class="bi bi-patch-question mr-1"></i>Câu Hỏi</span>
-                    </a>
+                    <router-link to="/admin/cau-hoi">
+                        <a href="/admin/cau-hoi">
+                            <span><i class="bi bi-patch-question mr-1"></i>Câu Hỏi</span>
+                        </a>
+                    </router-link>
                 </li>
                 <li class="menu single-menu">
-                    <a href="/admin/bai-thi">
-                        <span><i class="bi bi-card-text mr-1"></i>Bài Thi</span>
-                    </a>
+                    <router-link to="/admin/bai-thi">
+                        <a href="/admin/bai-thi">
+                            <span><i class="bi bi-card-text mr-1"></i>Bài Thi</span>
+                        </a>
+                    </router-link>
                 </li>
             </ul>
         </nav>

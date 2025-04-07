@@ -1,12 +1,12 @@
 <template>
-    <div class="container-fluid bg-light">
+    <div class="wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <div class="card bg-white mt-2">
+                <div class="card bg-white mt-3">
                     <div class="card-header bg-white">
                         <div class="d-flex justify-content-between">
                             <h4 class="mb-0 mt-1"><b>Quản Lý Câu Hỏi</b></h4>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addSinhVien">Thêm
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCauHoi">Thêm
                                 Câu Hỏi</button>
                         </div>
                     </div>
@@ -32,19 +32,18 @@
                                             <td class="align-middle text-center">
                                                 <button v-if="value.loai_cau_hoi == 1" class="btn btn-primary w-75">Trắc
                                                     Nghiệm</button>
-                                                <button v-else-if="value.loai_cau_hoi == 2" class="btn btn-info w-75">Trả
+                                                <button v-else-if="value.loai_cau_hoi == 2"
+                                                    class="btn btn-info w-75">Trả
                                                     Lời Ngắn</button>
                                                 <button v-else class="btn btn-success w-75">Tự Luận</button>
                                             </td>
                                             <td class="align-middle"></td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <h4><i 
-                                                            class="bi bi-pencil-square text-info mr-2"
-                                                            data-toggle="modal" data-target="#editSinhVien"></i></h4>
-                                                    <h4><i 
-                                                            class="bi bi-trash3 text-danger" data-toggle="modal"
-                                                            data-target="#delSinhVien"></i></h4>
+                                                    <h4><i class="bi bi-pencil-square text-info mr-2"
+                                                            data-toggle="modal" data-target="#editCauHoi"></i></h4>
+                                                    <h4><i class="bi bi-trash3 text-danger" data-toggle="modal"
+                                                            data-target="#delCauHoi"></i></h4>
                                                 </div>
                                             </td>
                                         </tr>
@@ -58,59 +57,84 @@
         </div>
     </div>
     <!-- Modal Add-->
-    <!-- <div class="modal fade" id="addSinhVien" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Sinh Viên</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Câu Hỏi</b></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label>Tên Câu Hỏi</label>
+                                <input class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label>Loại Câu Hỏi</label>
+                                <select class="placeholder form-control">
+                                    <option>Chọn loại câu hỏi...</option>
+                                    <option value="0">Trắc Nghiệm</option>
+                                    <option value="1">Trả Lời Ngắn</option>
+                                    <option value="2">Tự Luận</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label>Môn Học</label>
+                                <input class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label>Số Lượng Đáp Án</label>
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button @click="addSinhVien()" type="button" class="btn btn-primary" data-dismiss="modal">Thêm
-                        Mới</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm Mới</button>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- Modal Edit-->
-    <!-- <div class="modal fade" id="editSinhVien" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Cập Nhật Sinh Viên</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Cập Nhật Câu Hỏi</b></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button @click="editSinhVien()" type="button" class="btn btn-info" data-dismiss="modal">Lưu</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Lưu</button>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- Modal Del-->
-    <!-- <div class="modal fade" id="delSinhVien" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="delCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Xóa Sinh Viên</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Xóa Câu Hỏi</b></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning" role="alert">
-                        Bạn có chắc chắn muốn xóa sinh viên <b class="text-danger">"{{ delSV.ho_va_ten }}"</b> không?
+                        Bạn có chắc chắn muốn xóa câu hỏi <b class="text-danger">""</b> không?
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -119,17 +143,19 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 <script>
+import { toast } from "vue3-toastify";
+import axios from 'axios';
 export default {
     data() {
         return {
             question: {
-                ten_cau_hoi: "",
-                id_mon_hoc: "",
-                loai_cau_hoi: "",
-                so_luong_dap_an: "",
+                ten_cau_hoi     : "",
+                id_mon_hoc      : "",
+                loai_cau_hoi    : "",
+                so_luong_dap_an : "",
             },
             questions: [
                 { id: 1, ten_cau_hoi: "Câu hỏi 1: Định nghĩa của đạo hàm?", id_mon_hoc: 1, loai_cau_hoi: 1, so_luong_dap_an: 4 },

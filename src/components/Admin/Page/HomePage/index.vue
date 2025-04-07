@@ -2,6 +2,7 @@
     Dashboard
 </template>
 <script>
+
 export default {
     
 }

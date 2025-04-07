@@ -5,9 +5,7 @@
         <div class="search-overlay"></div>
         <MenuGiangVien></MenuGiangVien>
         <div id="content" class="main-content">
-            <div class="layout-px-spacing">
-                <router-view></router-view>
-            </div>
+            <router-view></router-view>
         </div>
     </div>
 </template>
