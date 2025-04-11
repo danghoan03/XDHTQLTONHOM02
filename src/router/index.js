@@ -13,9 +13,9 @@ const routes = [
         component: ()=>import('../layout/wrapper/index_blank.vue'),
         meta :  {layout :   "blank"},
         children: [
-            {path : 'admin', component: ()=>import('../components/Admin/Page/Login/index.vue')},
-            {path : 'giang-vien', component: ()=>import('../components/GiangVien/Page/Login/index.vue')},
-            {path : 'sinh-vien', component: ()=>import('../components/SinhVien/Page/Login/index.vue')},
+            {path : 'admin', component: ()=>import('../components/Admin/Login/index.vue')},
+            {path : 'giang-vien', component: ()=>import('../components/GiangVien/Login/index.vue')},
+            {path : 'sinh-vien', component: ()=>import('../components/SinhVien/Login/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO ADMIN
@@ -24,14 +24,14 @@ const routes = [
         component: ()=>import('../layout/wrapper/index.vue'),
         meta :  {layout :   "default"},
         children: [
-            {path : 'homepage', component: ()=>import('../components/Admin/Page/HomePage/index.vue')},
-            {path : 'giang-vien', component: ()=>import('../components/Admin/Page/GiangVien/index.vue')},
-            {path : 'sinh-vien', component: ()=>import('../components/Admin/Page/SinhVien/index.vue')},
-            {path : 'lop-hoc', component: ()=>import('../components/Admin/Page/LopHoc/index.vue')},
-            {path : 'loai-bai-thi', component: ()=>import('../components/Admin/Page/LoaiBaiThi/index.vue')},
-            {path : 'mon-hoc', component: ()=>import('../components/Admin/Page/MonHoc/index.vue')},
-            {path : 'cau-hoi', component: ()=>import('../components/Admin/Page/CauHoi/index.vue')},
-            {path : 'bai-thi', component: ()=>import('../components/Admin/Page/BaiThi/index.vue')},
+            {path : 'homepage', component: ()=>import('../components/Admin/HomePage/index.vue')},
+            {path : 'giang-vien', component: ()=>import('../components/Admin/GiangVien/index.vue')},
+            {path : 'sinh-vien', component: ()=>import('../components/Admin/SinhVien/index.vue')},
+            {path : 'lop-hoc', component: ()=>import('../components/Admin/LopHoc/index.vue')},
+            {path : 'loai-bai-thi', component: ()=>import('../components/Admin/LoaiBaiThi/index.vue')},
+            {path : 'mon-hoc', component: ()=>import('../components/Admin/MonHoc/index.vue')},
+            {path : 'cau-hoi', component: ()=>import('../components/Admin/CauHoi/index.vue')},
+            {path : 'bai-thi', component: ()=>import('../components/Admin/BaiThi/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO GIẢNG VIÊN
@@ -40,12 +40,12 @@ const routes = [
         component: ()=>import('../layout/wrapper/index_giangvien.vue'),
         meta :  {layout :   "giangvien"},
         children: [
-            {path : 'homepage', component: ()=>import('../components/GiangVien/Page/Home/index.vue')},
-            {path : 'lop-hoc', component: ()=>import('../components/GiangVien/Page/LopHoc/index.vue')},
-            {path : 'loai-bai-thi', component: ()=>import('../components/GiangVien/Page/LoaiBaiThi/index.vue')},
-            {path : 'mon-hoc', component: ()=>import('../components/GiangVien/Page/MonHoc/index.vue')},
-            {path : 'cau-hoi', component: ()=>import('../components/GiangVien/Page/CauHoi/index.vue')},
-            {path : 'bai-thi', component: ()=>import('../components/GiangVien/Page/BaiThi/index.vue')},
+            {path : 'homepage', component: ()=>import('../components/GiangVien/Home/index.vue')},
+            {path : 'lop-hoc', component: ()=>import('../components/GiangVien/LopHoc/index.vue')},
+            {path : 'loai-bai-thi', component: ()=>import('../components/GiangVien/LoaiBaiThi/index.vue')},
+            {path : 'mon-hoc', component: ()=>import('../components/GiangVien/MonHoc/index.vue')},
+            {path : 'cau-hoi', component: ()=>import('../components/GiangVien/CauHoi/index.vue')},
+            {path : 'bai-thi', component: ()=>import('../components/GiangVien/BaiThi/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO SINH VIÊN
@@ -54,11 +54,11 @@ const routes = [
         component: ()=>import('../layout/wrapper/index_sinhvien.vue'),
         meta :  {layout :   "sinhvien"},
         children: [
-            {path : 'homepage', component: ()=>import('../components/SinhVien/Page/HomePage/index.vue')},
-            {path : 'lop-hoc', component: ()=>import('../components/SinhVien/Page/LopHoc/index.vue')},
-            {path : 'chi-tiet-lop-hoc', component: ()=>import('../components/SinhVien/Page/ChiTietLopHoc/index.vue')},
-            {path : 'ket-qua', component: ()=>import('../components/SinhVien/Page/KetQua/index.vue')},
-            {path : 'bai-thi', component: ()=>import('../components/SinhVien/Page/BaiThi/index.vue')},
+            {path : 'homepage', component: ()=>import('../components/SinhVien/Home/index.vue')},
+            {path : 'lop-hoc', component: ()=>import('../components/SinhVien/LopHoc/index.vue')},
+            {path : 'chi-tiet-lop-hoc', component: ()=>import('../components/SinhVien/ChiTietLopHoc/index.vue')},
+            {path : 'ket-qua', component: ()=>import('../components/SinhVien/KetQua/index.vue')},
+            {path : 'bai-thi', component: ()=>import('../components/SinhVien/BaiThi/index.vue')},
         ]
     },
 ]

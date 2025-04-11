@@ -260,12 +260,89 @@ export default {
             axios
                 .get("http://127.0.0.1:8000/api/admin/lop-hoc/data")
                 .then((res) => {
-                    this.classes = res.data;
+                    this.classes = res.data.lophoc;
                 })
                 .catch((res) => {
                     const classes = Object.values(res.response.data.errors);
                     classes.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
+        },
+        addLopHoc(){
+            axios
+                .post("http://127.0.0.1:8000/api/admin/lop-hoc/create", this.create)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.create = {
+                            anh_dai_dien    : "",
+                            ho_va_ten       : "",
+                            email           : "",
+                            so_dien_thoai   : "",
+                            thong_tin_chung : "",
+                            trang_thai      : ""
+                        };
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const students = Object.values(res.response.data.errors);
+                    students.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
+        },
+        editLopHoc(){
+            axios
+                .post("http://127.0.0.1:8000/api/admin/lop-hoc/update", this.editSV)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const students = Object.values(res.response.data.errors);
+                    students.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
+        },
+        delLopHoc(){
+            axios
+                .post("http://127.0.0.1:8000/api/admin/lop-hoc/delete", this.del)
+                .then((res) => {
+                    if(res.data.status){
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const subjects = Object.values(res.response.data.errors);
+                    subjects.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },

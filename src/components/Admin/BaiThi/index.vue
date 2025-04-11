@@ -445,7 +445,6 @@ import { toast } from "vue3-toastify";
 export default {
     data() {
         return {
-            
             create: {
                 ten_bai_thi         : "",
                 id_loai_bai_thi     : "",
@@ -457,16 +456,43 @@ export default {
                 mat_khau            : "",
                 trang_thai          : "",
             },
+            update: {
+                ten_bai_thi         : "",
+                id_loai_bai_thi     : "",
+                thoi_gian_bat_dau   : "",
+                thoi_gian_ket_thuc  : "",
+                id_giang_vien       : "",
+                id_mon_hoc          : "",
+                id_lop_hoc          : "",
+                mat_khau            : "",
+                trang_thai          : "",
+            },
+            del: {
+                ten_bai_thi         : "",
+            },
             exams: [],
         }
     },
     mounted() {
-
+        this.loadData();
     },
     methods: {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY HH:mm:ss');
         },
+        loadData(){
+            axios
+                .get("http://127.0.0.1:8000/api/admin/bai-thi/data")
+                .then((res) => {
+                    this.exams = res.data.baithi;
+                })
+                .catch((res) => {
+                    const exams = Object.values(res.response.data.errors);
+                    exams.forEach((v, i) => {
+                        toast.error(v[0]);
+                    });
+                });
+        }
     },
 }
 </script>

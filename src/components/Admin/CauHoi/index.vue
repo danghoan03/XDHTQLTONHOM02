@@ -151,7 +151,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            question: {
+            create: {
                 ten_cau_hoi     : "",
                 id_mon_hoc      : "",
                 loai_cau_hoi    : "",
@@ -177,13 +177,43 @@ export default {
                 { id: 17, ten_cau_hoi: "Câu hỏi 17: Trí tuệ nhân tạo là gì?", id_mon_hoc: 9, loai_cau_hoi: 0, so_luong_dap_an: 0 },
                 { id: 18, ten_cau_hoi: "Câu hỏi 18: Các ứng dụng của AI?", id_mon_hoc: 9, loai_cau_hoi: 1, so_luong_dap_an: 4 },
             ],
+            update: {
+                ten_cau_hoi     : "",
+                id_mon_hoc      : "",
+                loai_cau_hoi    : "",
+                so_luong_dap_an : "",
+            },
+            del: {
+                ten_cau_hoi     : "",
+            }
         }
     },
     mounted() {
-
+        this.loadData();
     },
     methods: {
+        loadData(){
+            axios
+                .get("http://127.0.0.1:8000/api/admin/cau-hoi/data")
+                .then((res) => {
+                    this.questions = res.data.cauhoi;
+                })
+                .catch((res) => {
+                    const questions = Object.values(res.response.data.errors);
+                    questions.forEach((v, i) => {
+                        toast.error(v[0]);
+                    });
+                });
+        },
+        addCauHoi(){
 
+        },
+        editCauHoi(){
+
+        },
+        delCauHoi(){
+            
+        }
     },
 }
 </script>

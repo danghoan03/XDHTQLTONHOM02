@@ -221,16 +221,19 @@ export default {
                             trang_thai: "",
                         };
                         this.loadData();
-                        this.$toast.success(res.data.message, {
+                        toast(res.data.message, {
+                            type: "success",
                             position: "top-right",
-                            autoClose: 1000, // Đóng sau 1 giây
                         });
                     }
                 })
                 .catch((res) => {
                     const subjects = Object.values(res.response.data.errors);
                     subjects.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -247,16 +250,19 @@ export default {
                             trang_thai: "",
                         };
                         this.loadData();
-                        this.$toast.success(res.data.message, {
+                        toast(res.data.message, {
+                            type: "success",
                             position: "top-right",
-                            autoClose: 1000, // Đóng sau 1 giây
                         });
                     }
                 })
                 .catch((res) => {
                     const subjects = Object.values(res.response.data.errors);
                     subjects.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -266,16 +272,19 @@ export default {
                 .then((res) => {
                     if(res.data.status){
                         this.loadData();
-                        this.$toast.success(res.data.message, {
+                        toast(res.data.message, {
+                            type: "success",
                             position: "top-right",
-                            autoClose: 1000, // Đóng sau 1 giây
                         });
                     }
                 })
                 .catch((res) => {
                     const subjects = Object.values(res.response.data.errors);
                     subjects.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         }

@@ -37,7 +37,7 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle">{{ value.ho_va_ten }}</td>
-                                            <td class="align-middle">{{ value.can_cuoc }}</td>
+                                            <td class="align-middle text-center">{{ value.can_cuoc }}</td>
                                             <td class="align-middle text-center">{{ value.ma_sinh_vien }}</td>
                                             <td class="align-middle">{{ value.email }}</td>
                                             <td class="align-middle text-center">{{ value.so_dien_thoai }}</td>
@@ -196,27 +196,21 @@ export default {
     data() {
         return {
             create : {
-                anh_dai_dien    : "",
                 ho_va_ten       : "",
                 can_cuoc        : "",
-                ma_sinh_vien    : "",
                 email           : "",
-                password        : "",
                 so_dien_thoai   : "",
                 thong_tin_chung : "",
-                trang_thai      : ""
+                trang_thai      : ""                     
             },
             students: [],
             delSV: {
                 ho_va_ten       : "",
             },
             editSV: {
-                anh_dai_dien    : "",
                 ho_va_ten       : "",
                 can_cuoc        : "",
-                ma_sinh_vien    : "",
                 email           : "",
-                password        : "",
                 so_dien_thoai   : "",
                 thong_tin_chung : "",
                 trang_thai      : ""
@@ -236,7 +230,10 @@ export default {
                 .catch((res) => {
                     const students = Object.values(res.response.data.errors);
                     students.forEach((v, i) => {
-                        toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -248,10 +245,7 @@ export default {
                         this.create = {
                             anh_dai_dien    : "",
                             ho_va_ten       : "",
-                            can_cuoc        : "",
-                            ma_sinh_vien    : "",
                             email           : "",
-                            password        : "",
                             so_dien_thoai   : "",
                             thong_tin_chung : "",
                             trang_thai      : ""
@@ -266,15 +260,56 @@ export default {
                 .catch((res) => {
                     const students = Object.values(res.response.data.errors);
                     students.forEach((v, i) => {
-                        toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
         editSinhVien(){
-
+            axios
+                .post("http://127.0.0.1:8000/api/admin/sinh-vien/update", this.editSV)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const students = Object.values(res.response.data.errors);
+                    students.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
         },
         delSinhVien(){
-            
+            axios
+                .post("http://127.0.0.1:8000/api/admin/sinh-vien/delete", this.del)
+                .then((res) => {
+                    if(res.data.status){
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const subjects = Object.values(res.response.data.errors);
+                    subjects.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
         },
     },
 }

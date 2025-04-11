@@ -165,7 +165,10 @@ export default {
                 .catch((res) => {
                     const examTypes = Object.values(res.response.data.errors);
                     examTypes.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -188,7 +191,10 @@ export default {
                 .catch((res) => {
                     const examTypes = Object.values(res.response.data.errors);
                     examTypes.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -207,7 +213,10 @@ export default {
                 .catch((res) => {
                     const examTypes = Object.values(res.response.data.errors);
                     examTypes.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },
@@ -226,7 +235,10 @@ export default {
                 .catch((res) => {
                     const examTypes = Object.values(res.response.data.errors);
                     examTypes.forEach((v, i) => {
-                        this.$toast.error(v[0]);
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
                     });
                 });
         },

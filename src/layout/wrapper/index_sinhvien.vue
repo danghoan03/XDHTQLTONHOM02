@@ -1,9 +1,9 @@
 <template>
-    <TopGiangVien></TopGiangVien>
+    <TopSinhVien></TopSinhVien>
     <div class="main-container" id="container">
         <div class="overlay"></div>
         <div class="search-overlay"></div>
-        <MenuGiangVien></MenuGiangVien>
+        <MenuSinhVien></MenuSinhVien>
         <div id="content" class="main-content">
             <router-view></router-view>
         </div>
