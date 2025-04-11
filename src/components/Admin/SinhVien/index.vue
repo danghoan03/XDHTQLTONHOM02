@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-2">
-                                <label class="text-dark"><b>Mã sinh viên</b></label>
+                                <label class="text-dark"><b>Căn cước</b></label>
                                 <input v-model="create.can_cuoc" class="form-control" type="text">
                             </div>
                             <div class="mb-2">
@@ -143,12 +143,19 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-2">
-                                <label class="text-dark"><b>Mã sinh viên</b></label>
+                                <label class="text-dark"><b>Căn cước</b></label>
                                 <input v-model="editSV.can_cuoc" class="form-control" type="text">
                             </div>
                             <div class="mb-2">
                                 <label class="text-dark"><b>Mã sinh viên</b></label>
                                 <input v-model="editSV.ma_sinh_vien" class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Trạng thái</b></label>
+                                <select v-model="editSV.trang_thai" class="form-control">
+                                    <option value="1">Hoạt Động</option>
+                                    <option value="0">Tạm Ngưng</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -243,7 +250,6 @@ export default {
                 .then((res) => {
                     if (res.data.status) {
                         this.create = {
-                            anh_dai_dien    : "",
                             ho_va_ten       : "",
                             email           : "",
                             so_dien_thoai   : "",
@@ -291,7 +297,7 @@ export default {
         },
         delSinhVien(){
             axios
-                .post("http://127.0.0.1:8000/api/admin/sinh-vien/delete", this.del)
+                .post("http://127.0.0.1:8000/api/admin/sinh-vien/delete", this.delSV)
                 .then((res) => {
                     if(res.data.status){
                         this.loadData();
