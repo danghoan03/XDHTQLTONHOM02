@@ -32,6 +32,7 @@ const routes = [
             {path : 'mon-hoc', component: ()=>import('../components/Admin/MonHoc/index.vue')},
             {path : 'cau-hoi', component: ()=>import('../components/Admin/CauHoi/index.vue')},
             {path : 'bai-thi', component: ()=>import('../components/Admin/BaiThi/index.vue')},
+            {path : 'khoa', component: ()=>import('../components/Admin/Khoa/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO GIẢNG VIÊN

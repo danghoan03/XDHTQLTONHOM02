@@ -72,6 +72,13 @@
                         </a>
                     </router-link>
                 </li>
+                <li class="menu single-menu">
+                     <router-link to="/admin/khoa">
+                         <a href="/admin/khoa">
+                             <span><i class="bi bi-card-text mr-1"></i>Khoa</span>
+                         </a>
+                     </router-link>
+                 </li>
             </ul>
         </nav>
     </div>
