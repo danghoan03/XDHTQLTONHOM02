@@ -60,6 +60,8 @@ const routes = [
             {path : 'chi-tiet-lop-hoc', component: ()=>import('../components/SinhVien/ChiTietLopHoc/index.vue')},
             {path : 'ket-qua', component: ()=>import('../components/SinhVien/KetQua/index.vue')},
             {path : 'bai-thi', component: ()=>import('../components/SinhVien/BaiThi/index.vue')},
+            {path : 'profile', component: ()=>import('../components/SinhVien/Profile/index.vue')},
+            {path : 'mat-khau', component: ()=>import('../components/SinhVien/MatKhau/index.vue')},
         ]
     },
 ]
