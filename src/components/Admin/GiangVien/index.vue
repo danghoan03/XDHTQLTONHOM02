@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-2">
-                                <label class="text-dark"><b>Mã giảng viên</b></label>
+                                <label class="text-dark"><b>Số căn cước</b></label>
                                 <input v-model="create.can_cuoc" class="form-control" type="text">
                             </div>
                             <div class="mb-2">
@@ -143,12 +143,19 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-2">
-                                <label class="text-dark"><b>Mã giảng viên</b></label>
+                                <label class="text-dark"><b>Số căn cước</b></label>
                                 <input v-model="editGV.can_cuoc" class="form-control" type="text">
                             </div>
                             <div class="mb-2">
                                 <label class="text-dark"><b>Mã giảng viên</b></label>
                                 <input v-model="editGV.ma_giang_vien" class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Trạng thái</b></label>
+                                <select v-model="editGV.trang_thai" class="form-control">
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Tạm ngưng</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-12">
