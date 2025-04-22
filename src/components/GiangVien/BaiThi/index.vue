@@ -60,7 +60,8 @@
                                         <th class="text-dark">Tên Bài Thi</th>
                                         <th class="text-dark">Môn Học</th>
                                         <th class="text-dark">Lớp</th>
-                                        <th class="text-dark">Thời Gian</th>
+                                        <th class="text-dark">Thời gian</th>
+                                    
                                         <th class="text-dark">Trạng Thái</th>
                                         <th class="text-dark">Action</th>
                                     </tr>
@@ -70,8 +71,8 @@
                                         <tr>
                                             <th class="align-middle text-center">{{ index + 1 }}</th>
                                             <td class="align-middle ">{{ value.ten_bai_thi }}</td>
-                                            <td class="align-middle text-center">{{ value.id_mon_hoc }}</td>
-                                            <td class="align-middle ">{{ value.id_lop_hoc }}</td>
+                                            <td class="align-middle text-center">{{ value.ten_mon_hoc }}</td>
+                                            <td class="align-middle ">{{ value.ten_lop }}</td>
                                             <td class="align-middle ">
                                                 <table class="table table-bordered">
                                                     <tbody>
@@ -478,6 +479,7 @@ export default {
                     trang_thai: 1
                 }
             ],
+            exams: [],
         }
     },
     mounted() {
@@ -487,7 +489,46 @@ export default {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY HH:mm:ss');
         },
+        loadData(){
+            axios
+                .get("http://127.0.0.1:8000/api/admin/bai-thi/data")
+                .then((res) => {
+                    this.exams = res.data.baithi;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        addBaiThi() {
+            axios
+            .get("http://127.0.0.1:8000/api/admin/bai-thi/create")
+            .then((res) => {
+                    if (res.data.status) {
+                        this.create = {
+                            ten_bai_thi: "",
+                            thoi_gian_bat_dau: "",
+                            thoi_gian_ket_thuc: "",
+                            id_mon_hoc: "",
+                            id_lop_hoc: "",
+                          
+                            id_loai_bai_thi: "",
+                            trang_thai: "",
+                        };
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const teachers = Object.values(res.response.data.errors);
+                    teachers.forEach((v, i) => {
+                        toast.error(v[0]);
+                    });
+                });
     },
+}
 }
 </script>
 <style></style>

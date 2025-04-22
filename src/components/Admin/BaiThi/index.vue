@@ -7,26 +7,30 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label class="text-dark"><b>Tìm Kiếm Bài Thi</b></label>
-                                <input type="text" class="form-control" placeholder="Tìm kiếm bài thi...."
+                                <input type="text" class="form-control" placeholder=" Tên bài thi...."
                                     aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                             <div class="col-md-3">
                                 <label class="text-dark"><b>Lọc Theo Môn Học</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Tất cả môn học....</option>
-                                    <!-- <option v-for="mon in dsMonHoc" :value="mon.id">
-                                        @{{ mon.ten_id_mon_hoc }}
-                                    </option> -->
+
+                                <select class=" placeholder form-control form-select mr-2" v-model="selectedMon"
+                                    @change="filterByMonHoc">
+                                    <option value="" class="placeholder">-- Chọn môn học --</option>
+                                    <option v-for="mon in subjects" :key="mon.id" :value="mon.id">
+                                        {{ mon.ten_mon_hoc }}
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="text-dark"><b>Lọc Theo Loại Bài Thi</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Tất cả loại bài thi....</option>
-                                    <!-- <option v-for="mon in dsMonHoc" :value="mon.id">
-                                        @{{ mon.ten_id_mon_hoc }}
-                                    </option> -->
+                                <label class="text-dark "><b>Lọc Theo Loại Bài Thi</b></label>
+                                <select class="form-control" v-model="selectedLoaiBaiThi" @change="filterByLoaiBaiThi">
+                                    <option value="">Tất cả loại bài thi</option>
+                                    <option v-for="loai in examTypes" :key="loai.id" :value="loai.id">
+
+                                        {{ loai.ten_loai_bai_thi }}
+                                    </option>
                                 </select>
+
                             </div>
                             <div class="col-md-3">
                                 <label class="text-dark"><b>Lọc Theo Trạng Thái</b></label>
@@ -60,7 +64,11 @@
                                         <th class="text-dark">Tên Bài Thi</th>
                                         <th class="text-dark">Môn Học</th>
                                         <th class="text-dark">Lớp</th>
-                                        <th class="text-dark">Thời Gian</th>
+                                        <th class="text-dark">Thời Gian Bắt đầu</th>
+                                        <th class="text-dark">Thời Gian Kết Thúc</th>
+                                        <th class="text-dark">Thời Gian Thi</th>
+                                        <th class="text-dark">Loại Bài Thi</th>
+
                                         <th class="text-dark">Trạng Thái</th>
                                         <th class="text-dark">Action</th>
                                     </tr>
@@ -70,22 +78,20 @@
                                         <tr>
                                             <th class="align-middle text-center">{{ index + 1 }}</th>
                                             <td class="align-middle ">{{ value.ten_bai_thi }}</td>
-                                            <td class="align-middle text-center">{{ value.id_mon_hoc }}</td>
-                                            <td class="align-middle ">{{ value.id_lop_hoc }}</td>
+                                            <td class="align-middle text-center">{{ value.ten_mon_hoc }}</td>
+
+                                            <td class="align-middle text-center">{{ value.ten_lop }}</td>
+
                                             <td class="align-middle ">
                                                 <table class="table table-bordered">
                                                     <tbody>
-                                                        <tr class="text-center">
-                                                            <td><b>Bắt đầu:</b> {{ formatDate(value.thoi_gian_bat_dau)
-                                                            }}</td>
-                                                        </tr>
-                                                        <tr class="text-center">
-                                                            <td><b>Kết thúc:</b> {{ formatDate(value.thoi_gian_ket_thuc)
-                                                            }}</td>
-                                                        </tr>
+                                                        <td><b>Bắt đầu:</b> {{ formatDate(value.ngay_bat_dau) }}</td>
+                                                        <td><b>Kết thúc:</b> {{ formatDate(value.ngay_ket_thuc) }}</td>
+
                                                     </tbody>
                                                 </table>
                                             </td>
+                                            <td class="align-middle text-center">{{ value.thoi_gian_thi }}</td>
                                             <td class="align-middle text-center">
                                                 <button v-if="value.trang_thai == 1" class="btn btn-success">Hoạt
                                                     Động</button>
@@ -111,388 +117,261 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Modal Add-->
-    <div class="modal fade" id="addBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Bài Thi</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Tên Bài Thi</b></label>
-                                <input class="form-control" type="text">
+            <div class="modal fade" id="addBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Bài Thi</b></h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Tên Bài Thi</b></label>
+                                        <input class="form-control" type="text" v-model="create.ten_bai_thi">
+
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Lớp Học</b></label>
+                                        <select class="placeholder form-control" v-model="create.id_lop_hoc">
+                                            <option disabled value="">Chọn lớp hoc...</option>
+                                            <option v-for="lop in class" :value="lop.id">{{ lop.ten_lop }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Thời Gian Bắt Đầu</b></label>
+                                        <input class="form-control" type="datetime-local"
+                                            v-model="create.thoi_gian_bat_dau">
+
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Thời Gian Kết Thúc</b></label>
+                                        <input class="form-control" type="datetime-local"
+                                            v-model="create.thoi_gian_ket_thuc">
+
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Thời Gian Thi</b></label>
+                                        <input class="form-control" type="number" placeholder="Thời gian thi"
+                                            v-model="create.thoi_gian_thi">
+
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Mật Khẩu</b> (nếu có)</label>
+                                        <input     v-model="create.mat_khau" class="form-control"  type="number">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Môn Học</b></label>
+                                        <select class="placeholder form-control" v-model="create.id_mon_hoc">
+                                            <option disabled value="">Chọn môn học...</option>
+                                            <option v-for="mon in subjects" :value="mon.id">{{ mon.ten_mon_hoc }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Loại Bài Thi</b></label>
+                                        <select class="placeholder form-control" v-model="create.id_loai_bai_thi">
+                                            <option disabled value="">Chọn loại bài thi...</option>
+                                            <option v-for="loai in examTypes" :value="loai.id">{{ loai.ten_loai_bai_thi
+                                            }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="text-dark"><b>Trạng Thái</b></label>
+                                        <select class="form-control" v-model="create.trang_thai">
+                                            <option value="1">Đang Hoạt Động</option>
+                                            <option value="0">Ngưng Hoạt Động</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Lớp Học</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn lớp học...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Thời Gian Bắt Đầu</b></label>
-                                <input class="form-control" type="datetime-local">
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Mật Khẩu</b> (nếu có)</label>
-                                <input class="form-control" type="number">
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" v-on:click="addBaiThi()">Thêm Mới</button>
 
                         </div>
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Môn Học</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn môn học...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Loại Bài Thi</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn loại bài thi...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Thời Gian Kết Thúc</b></label>
-                                <input class="form-control" type="datetime-local">
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Trạng Thái</b></label>
-                                <select class="form-control">
-                                    <option selected>Đang Hoạt Động</option>
-                                    <option value="0">Ngưng Hoạt Động</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm Mới</button>
-                </div>
             </div>
-        </div>
-    </div>
-    <!-- Modal Edit-->
-    <div class="modal fade" id="editBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Cập Nhật</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Tên Bài Thi</b></label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Lớp Học</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn lớp học...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Thời Gian Bắt Đầu</b></label>
-                                <input class="form-control" type="datetime-local">
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Mật Khẩu</b> (nếu có)</label>
-                                <input class="form-control" type="number">
-                            </div>
+            <!-- Modal Edit-->
 
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Môn Học</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn môn học...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Loại Bài Thi</b></label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn loại bài thi...</option>
-                                    <option value="1">Đang Hoạt Động</option>
-                                </select>
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Thời Gian Kết Thúc</b></label>
-                                <input class="form-control" type="datetime-local">
-                            </div>
-                            <div class="mb-2">
-                                <label class="text-dark"><b>Trạng Thái</b></label>
-                                <select class="form-control">
-                                    <option selected>Đang Hoạt Động</option>
-                                    <option value="0">Ngưng Hoạt Động</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Lưu</button>
-                </div>
-            </div>
         </div>
-    </div>
-    <!-- Modal Enter-->
-    <div class="modal fade" id="enterBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nhập Câu Hỏi Cho Bài Thi <b
-                            class="text-danger">Hello</b>
-                        của môn <b>Hi! I'm Fine</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5><b>Phần Trắc Nghiệm</b></h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Số câu hỏi</label>
-                                                <input type="number" class="form-control" min="0">
-                                            </div>
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1"
-                                                    :max="10 - 0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span class="text-muted">
-                                        Điểm mỗi câu: <b class="text-danger"></b>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5><b>Phần Trả Lời Ngắn</b></h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Số câu hỏi</label>
-                                                <input type="number" class="form-control" min="0">
-                                            </div>
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1"
-                                                    :max="10 - 0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span class="text-muted">
-                                        Điểm mỗi câu: <b class="text-danger"></b>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5><b>Phần Tự Luận</b></h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-7">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Số câu hỏi</label>
-                                                <input type="number" class="form-control" min="0">
-                                            </div>
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="form-group mb-2">
-                                                <label class="form-label text-dark">Tổng điểm</label>
-                                                <input type="number" class="form-control" min="0" step="0.1"
-                                                    :max="10 - 0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span class="text-muted">
-                                        Điểm mỗi câu: <b class="text-danger"></b>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4 mb-0">
-                            <div class="alert alert-warning" role="alert">
-                                <i class="bi bi-exclamation-circle-fill mr-2"></i> Tổng điểm: <b>0/10</b>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-0">
-                            <div class="d-flex justify-content-start">
-                                <label class="switch s-icons s-outline s-outline-primary mr-1">
-                                    <input type="checkbox" checked>
-                                    <span class="slider round"></span>
-                                </label>
-                                <h6 class="mt-1">Tạo đề tự động</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-0">
-                            <button class="btn btn-info w-100"><i class="bi bi-patch-plus mr-2"></i>Nhập Câu
-                                Hỏi</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Xác Nhận</button>
-                </div>
-            </div>
-        </div>
-    </div>
-     <!-- Modal list SV-->
-     <div class="modal fade" id="listSV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Danh Sách Sinh Viên Lớp <b class="text-danger">ENG</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-primary">
-                            <tr class="text-center">
-                                <th class="text-dark">#</th>
-                                <th class="text-dark">Mã Sinh Viên</th>
-                                <th class="text-dark">Họ Và Tên</th>
-                                <th class="text-dark">Email</th>
-                                <th class="text-dark">Số Điện Thoại</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Del-->
-    <div class="modal fade" id="delBaiThi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Xóa Môn Học</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-warning" role="alert">
-                        Bạn có chắc chắn muốn xóa môn học <b class="text-danger">""</b> không?
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Xóa</button>
-                </div>
-            </div>
-        </div>
+
     </div>
 </template>
 <script>
+import axios from "axios";
 import moment from "moment";
 import { toast } from "vue3-toastify";
+
 
 export default {
     data() {
         return {
             create: {
-                ten_bai_thi         : "",
-                id_loai_bai_thi     : "",
-                thoi_gian_bat_dau   : "",
-                thoi_gian_ket_thuc  : "",
-                id_giang_vien       : "",
-                id_mon_hoc          : "",
-                id_lop_hoc          : "",
-                mat_khau            : "",
-                trang_thai          : "",
+                ten_bai_thi: "",
+                id_loai_bai_thi: "",
+                thoi_gian_bat_dau: "",
+                thoi_gian_ket_thuc: "",
+                thoi_gian_thi: "",
+                id_giang_vien: "",
+                id_mon_hoc: "",
+                id_lop_hoc: "",
+                mat_khau: "",
+                trang_thai: "",
             },
             update: {
-                ten_bai_thi         : "",
-                id_loai_bai_thi     : "",
-                thoi_gian_bat_dau   : "",
-                thoi_gian_ket_thuc  : "",
-                id_giang_vien       : "",
-                id_mon_hoc          : "",
-                id_lop_hoc          : "",
-                mat_khau            : "",
-                trang_thai          : "",
+                ten_bai_thi: "",
+                id_loai_bai_thi: "",
+                thoi_gian_bat_dau: "",
+                thoi_gian_ket_thuc: "",
+                id_giang_vien: "",
+                id_mon_hoc: "",
+                id_lop_hoc: "",
+                mat_khau: "",
+                trang_thai: "",
             },
             del: {
-                ten_bai_thi         : "",
+                ten_bai_thi: "",
             },
             exams: [],
+            subjects: [],
+            allExams: [],
+            examTypes: [],
+            selectedMon: "",
+            selectedLoaiBaiThi: "",
+            class: [],
         }
     },
     mounted() {
         this.loadData();
+        this.loadDataMonHoc();
+        this.loadDataLoaiBaiThi();
+        this.loadDataLopHoc();
+
     },
     methods: {
+        filterByLoaiBaiThi() {
+            if (this.selectedLoaiBaiThi === '') {
+                this.exams = this.allExams;
+            } else {
+                this.exams = this.allExams.filter((loaibt) => loaibt.id_loai_bai_thi == this.selectedLoaiBaiThi);
+            }
+        },
+        filterByMonHoc() {
+            if (this.selectedMon === '') {
+                this.exams = this.allExams;
+            } else {
+                this.exams = this.allExams.filter((mon) => mon.id_mon_hoc == this.selectedMon);
+            }
+        },
+        filterExams() {
+            this.exams = this.allExams.filter((exam) => {
+                const monHocMatch = this.selectedMon ? exam.id_mon_hoc == this.selectedMon : true;
+                const loaiBaiThiMatch = this.selectedLoaiBaiThi ? exam.id_loai_bai_thi == this.selectedLoaiBaiThi : true;
+                return monHocMatch && loaiBaiThiMatch;
+            });
+        },
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY HH:mm:ss');
         },
-        loadData(){
+        loadDataLoaiBaiThi() {
+            axios
+                .get("http://127.0.0.1:8000/api/admin/loai-bai-thi/data")
+                .then((res) => {
+                    this.examTypes = res.data.loaibaithi;
+                })
+                .catch((res) => {
+                    const examTypes = Object.values(res.response.data.errors);
+                    examTypes.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
+        },
+        loadDataMonHoc() {
+            axios
+                .get("http://127.0.0.1:8000/api/admin/mon-hoc/data-open")
+                .then((res) => {
+                    this.subjects = res.data.monhoc;
+                })
+                .catch((res) => {
+                    const subjects = Object.values(res.response.data.errors);
+                    subjects.forEach((v, i) => {
+                        this.$toast.error(v[0]);
+                    });
+                });
+        },
+        loadDataLopHoc() {
+            axios
+                .get("http://127.0.0.1:8000/api/admin/lop-hoc/data-open")
+                .then((res) => {
+                    this.class = res.data.lophoc;
+                })
+                .catch((res) => {
+                    const subjects = Object.values(res.response.data.errors);
+                    subjects.forEach((v, i) => {
+                        this.$toast.error(v[0]);
+                    });
+                });
+        },
+        loadData() {
             axios
                 .get("http://127.0.0.1:8000/api/admin/bai-thi/data")
                 .then((res) => {
                     this.exams = res.data.baithi;
+                    this.allExams = res.data.baithi;
                 })
                 .catch((res) => {
                     const exams = Object.values(res.response.data.errors);
-                    exams.forEach((v, i) => {
+                    exams.forEach((v) => {
                         toast.error(v[0]);
                     });
                 });
-        }
+        },
+        addBaiThi() {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/bai-thi/create", this.create)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.create = {
+                            ten_bai_thi: "",
+                            thoi_gian_bat_dau: "",
+                            thoi_gian_ket_thuc: "",
+                            thoi_gian_thi: "",
+                            id_mon_hoc: "",
+                            id_lop_hoc: "",
+                            id_loai_bai_thi: "",
+                            trang_thai: "",
+                        };
+                        this.loadData();
+                        toast.success(res.data.message, {
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    if (res.response && res.response.data.errors) {
+                        const errors = Object.values(res.response.data.errors);
+                        errors.forEach((v) => {
+                            toast.error(v[0]);
+                        });
+                    } else {
+                        toast.error('Có lỗi xảy ra, vui lòng thử lại.');
+                    }
+                });
+        },
+
     },
 }
 </script>

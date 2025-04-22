@@ -3,17 +3,41 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card bg-white mt-3">
-                    <div class="card-header bg-white">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="mb-0 mt-1"><b>Quản Lý Môn Học</b></h4>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addMonHoc">Thêm Môn
-                                Học</button>
+                    <div class="d-flex justify-content-between align-items-center" style="margin-top: 10px;">
+                        <h4 style="margin-left: 20px;" class="mb-0 mt-1"><b>Quản Lý Môn Học</b></h4>
+                        <div class="d-flex align-items-center" style="margin-right: 20px;">
+                            <select class=" form-control form-select mr-2"
+                                style="width: 200px; padding: 6px; height: auto;" v-model="selectedMon"
+                                @change="filterByMon">
+                                <option value="">-- Sắp xếp theo môn--</option>
+                                <option v-for="mon in subjects" :key="mon.id" :value="mon.id">
+                                    {{ mon.ma_mon_hoc }}
+                                </option>
+                            </select>
+                            <button style="border-radius: 5px;" class="btn btn-primary" data-toggle="modal"
+                                data-target="#addMonHoc">
+                                Thêm Môn Học
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover dataTable">
                                 <thead class="table-primary text-center">
+                                    <tr>
+                                        <th colspan="100%">
+                                            <div class="input-group w-100">
+                                                <input v-on:keyup.enter="timKiem()" v-model="search.noi_dung"
+                                                    type="text"
+                                                    class="form-control search-control border border-1 border-secondary"
+                                                    placeholder="Search...">
+                                                <span class="position-absolute top-50 search-show translate-middle-y"
+                                                    style="left: 15px;"><i class="bx bx-search"></i></span>
+                                                <button v-on:click="timKiem()" class="btn btn-warning" type="button">Tìm
+                                                    Kiếm</button>
+                                            </div>
+                                        </th>
+                                    </tr>
                                     <tr role="row">
                                         <th class="text-dark">#</th>
                                         <th class="text-dark">Tên Môn Học</th>
@@ -33,15 +57,17 @@
                                             <td class="align-middle text-center">{{ value.ma_so_mon_hoc }}</td>
                                             <td class="align-middle text-center">{{ value.so_tin_chi }}</td>
                                             <td class="align-middle text-center">
-                                                <button v-if="value.trang_thai == 1" class="btn btn-success">Đang Hoạt
+                                                <button v-on:click="doiTrangThai(value)" v-if="value.trang_thai == 1" class="btn btn-success">Đang Hoạt
                                                     Động</button>
-                                                <button v-else class="btn btn-danger">Ngưng Hoạt Động</button>
+                                                <button v-on:click="doiTrangThai(value)" v-else class="btn btn-danger">Ngưng Hoạt Động</button>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex justify-content-center">
-                                                    <h4><i @click="Object.assign(edit, value)" class="bi bi-pencil-square text-info mr-2"
+                                                    <h4><i @click="Object.assign(edit, value)"
+                                                            class="bi bi-pencil-square text-info mr-2"
                                                             data-toggle="modal" data-target="#editMonHoc"></i></h4>
-                                                    <h4><i @click="Object.assign(del, value)" class="bi bi-trash3 text-danger" data-toggle="modal"
+                                                    <h4><i @click="Object.assign(del, value)"
+                                                            class="bi bi-trash3 text-danger" data-toggle="modal"
                                                             data-target="#delMonHoc"></i></h4>
                                                 </div>
                                             </td>
@@ -172,34 +198,44 @@ export default {
     data() {
         return {
             create: {
-                ma_mon_hoc      : "",
-                ten_mon_hoc     : "",
-                ma_so_mon_hoc   : "",
-                so_tin_chi      : "",
-                trang_thai      : "",
+                ma_mon_hoc: "",
+                ten_mon_hoc: "",
+                ma_so_mon_hoc: "",
+                so_tin_chi: "",
+                trang_thai: "",
             },
             del: {
-                ten_mon_hoc     : "",
+                ten_mon_hoc: "",
             },
             edit: {
-                ma_mon_hoc      : "",
-                ten_mon_hoc     : "",
-                ma_so_mon_hoc   : "",
-                so_tin_chi      : "",
-                trang_thai      : "",
+                ma_mon_hoc: "",
+                ten_mon_hoc: "",
+                ma_so_mon_hoc: "",
+                so_tin_chi: "",
+                trang_thai: "",
             },
             subjects: [],
+            search: {},
         }
     },
     mounted() {
         this.loadData();
     },
     methods: {
+        filterByMon() {
+            if (this.selectedMon === '') {
+                this.subjects = this.allSubjects; // Nếu không chọn môn nào => hiển thị lại tất cả
+            } else {
+                // Lọc các môn học theo id đã chọn
+                this.subjects = this.allSubjects.filter((mon) => mon.id === this.selectedMon);
+            }
+        },
         loadData() {
             axios
                 .get("http://127.0.0.1:8000/api/admin/mon-hoc/data")
                 .then((res) => {
                     this.subjects = res.data.monhoc;
+                    this.allSubjects = res.data.monhoc;
                 })
                 .catch((res) => {
                     const subjects = Object.values(res.response.data.errors);
@@ -237,7 +273,7 @@ export default {
                     });
                 });
         },
-        updateMonHoc(){
+        updateMonHoc() {
             axios
                 .post("http://127.0.0.1:8000/api/admin/mon-hoc/update", this.edit)
                 .then((res) => {
@@ -266,11 +302,11 @@ export default {
                     });
                 });
         },
-        delMonHoc(){
+        delMonHoc() {
             axios
                 .post("http://127.0.0.1:8000/api/admin/mon-hoc/delete", this.del)
                 .then((res) => {
-                    if(res.data.status){
+                    if (res.data.status) {
                         this.loadData();
                         toast(res.data.message, {
                             type: "success",
@@ -287,7 +323,40 @@ export default {
                         });
                     });
                 });
-        }
+        },
+        timKiem() {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/mon-hoc/search", this.search)
+                .then((res) => {
+                    this.subjects = res.data.monhoc
+                })
+                .catch((res) => {
+                    const list = Object.values(res.response.data.errors);
+                    list.forEach((v, i) => {
+                        this.$toast.error(v[0]);
+                    });
+                })
+        },
+        doiTrangThai(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/mon-hoc/change-status", value)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const list = Object.values(res.response.data.errors);
+                    list.forEach((v, i) => {
+                        this.$toast.error(v[0]);
+                    });
+                })
+        },
+
     },
 }
 </script>

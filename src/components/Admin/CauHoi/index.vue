@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="card bg-white mt-3">
                     <div class="card-header bg-white">
                         <div class="d-flex justify-content-between">
@@ -16,10 +16,9 @@
                                 <thead class="table-primary text-center">
                                     <tr role="row">
                                         <th class="text-dark">#</th>
-                                        <th class="text-dark">Câu Hỏi</th>
                                         <th class="text-dark">Môn Học</th>
-                                        <th class="text-dark">Loại Câu Hỏi</th>
-                                        <th class="text-dark">Đáp Án</th>
+                                        <th class="text-dark">Mã Môn Học</th>
+                                        <th class="text-dark">Xem Câu Hỏi</th>
                                         <th class="text-dark">Action</th>
                                     </tr>
                                 </thead>
@@ -27,15 +26,11 @@
                                     <template v-for="(value, index) in questions" :key="index">
                                         <tr>
                                             <th class="align-middle text-center">{{ index + 1 }}</th>
-                                            <td class="align-middle">{{ value.ten_cau_hoi }}</td>
-                                            <td class="align-middle">{{ value.id_mon_hoc }}</td>
+                                            <td class="align-middle">{{ value.ten_mon_hoc }}</td>
+                                            <td class="align-middle">{{ value.ma_mon_hoc }}</td>
                                             <td class="align-middle text-center">
-                                                <button v-if="value.loai_cau_hoi == 1" class="btn btn-primary w-75">Trắc
-                                                    Nghiệm</button>
-                                                <button v-else-if="value.loai_cau_hoi == 2"
-                                                    class="btn btn-info w-75">Trả
-                                                    Lời Ngắn</button>
-                                                <button v-else class="btn btn-success w-75">Tự Luận</button>
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                    data-target="#viewCauHoi">Xem</button>
                                             </td>
                                             <td class="align-middle"></td>
                                             <td class="align-middle text-center">
@@ -56,165 +51,166 @@
             </div>
         </div>
     </div>
-    <!-- Modal Add-->
-    <div class="modal fade" id="addCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Thêm Mới Câu Hỏi</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label>Tên Câu Hỏi</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="mb-2">
-                                <label>Loại Câu Hỏi</label>
-                                <select class="placeholder form-control">
-                                    <option>Chọn loại câu hỏi...</option>
-                                    <option value="0">Trắc Nghiệm</option>
-                                    <option value="1">Trả Lời Ngắn</option>
-                                    <option value="2">Tự Luận</option>
-                                </select>
-                            </div>
+    <!-- Modal Add -->
+<div class="modal fade" id="addCauHoi" tabindex="-1" aria-labelledby="addCauHoiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="addCauHoiLabel"><b>Thêm Mới Câu Hỏi</b></h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-2">
+                            <label>Tên Câu Hỏi</label>
+                            <input class="form-control" type="text" v-model="create.ten_cau_hoi">
                         </div>
-                        <div class="col-lg-6">
-                            <div class="mb-2">
-                                <label>Môn Học</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="mb-2">
-                                <label>Số Lượng Đáp Án</label>
-                                <input class="form-control" type="text">
-                            </div>
+                        <div class="mb-2">
+                            <label>Loại Câu Hỏi</label>
+                            <select class="form-control" v-model="create.loai_cau_hoi">
+                                <option value="">Chọn loại câu hỏi...</option>
+                                <option value="0">Trắc Nghiệm</option>
+                                <option value="1">Trả Lời Ngắn</option>
+                                <option value="2">Tự Luận</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Môn Học</label>
+                            <select class="form-control" v-model="create.id_mon_hoc">
+                                <option value="">Chọn môn học...</option>
+                                <option v-for="subject in subjects" :key="subject.id" :value="subject.id">
+                                    {{ subject.ten_mon_hoc }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-2">
+                            <label>Đáp Án A</label>
+                            <input class="form-control" type="text" v-model="create.dap_an_a">
+                        </div>
+                        <div class="mb-2">
+                            <label>Đáp Án B</label>
+                            <input class="form-control" type="text" v-model="create.dap_an_b">
+                        </div>
+                        <div class="mb-2">
+                            <label>Đáp Án C</label>
+                            <input class="form-control" type="text" v-model="create.dap_an_c">
+                        </div>
+                        <div class="mb-2">
+                            <label>Đáp Án D</label>
+                            <input class="form-control" type="text" v-model="create.dap_an_d">
+                        </div>
+                        <div class="mb-2">
+                            <label>Đáp Án Đúng</label>
+                            <input class="form-control" type="text" v-model="create.dap_an_dung">
+                        </div>
+                        <div class="mb-2">
+                            <label>Nội Dung Trả Lời</label>
+                            <textarea class="form-control" v-model="create.noi_dung_tra_loi"></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm Mới</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" @click="addCauHoi">Thêm Mới</button>
             </div>
         </div>
     </div>
-    <!-- Modal Edit-->
-    <div class="modal fade" id="editCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Cập Nhật Câu Hỏi</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Lưu</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Del-->
-    <div class="modal fade" id="delCauHoi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-white" id="exampleModalLabel"><b>Xóa Câu Hỏi</b></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-warning" role="alert">
-                        Bạn có chắc chắn muốn xóa câu hỏi <b class="text-danger">""</b> không?
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </template>
+
 <script>
 import { toast } from "vue3-toastify";
 import axios from 'axios';
+
 export default {
     data() {
         return {
-            create: {
-                ten_cau_hoi     : "",
-                id_mon_hoc      : "",
-                loai_cau_hoi    : "",
-                so_luong_dap_an : "",
-            },
-            questions: [
-                { id: 1, ten_cau_hoi: "Câu hỏi 1: Định nghĩa của đạo hàm?", id_mon_hoc: 1, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 2, ten_cau_hoi: "Câu hỏi 2: Ý nghĩa của tích phân?", id_mon_hoc: 1, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 3, ten_cau_hoi: "Câu hỏi 3: Lập trình là gì?", id_mon_hoc: 2, loai_cau_hoi: 0, so_luong_dap_an: 0 },
-                { id: 4, ten_cau_hoi: "Câu hỏi 4: Các loại biến trong lập trình?", id_mon_hoc: 2, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 5, ten_cau_hoi: "Câu hỏi 5: Công thức hóa học của nước?", id_mon_hoc: 3, loai_cau_hoi: 2, so_luong_dap_an: 4 },
-                { id: 6, ten_cau_hoi: "Câu hỏi 6: Nguyên tố nào có số hiệu nguyên tử là 1?", id_mon_hoc: 3, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 7, ten_cau_hoi: "Câu hỏi 7: Định luật Newton thứ nhất là gì?", id_mon_hoc: 4, loai_cau_hoi: 0, so_luong_dap_an: 0 },
-                { id: 8, ten_cau_hoi: "Câu hỏi 8: Công thức tính lực?", id_mon_hoc: 4, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 9, ten_cau_hoi: "Câu hỏi 9: Hệ nhị phân là gì?", id_mon_hoc: 5, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 10, ten_cau_hoi: "Câu hỏi 10: Các cổng logic cơ bản?", id_mon_hoc: 5, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 11, ten_cau_hoi: "Câu hỏi 11: SQL là gì?", id_mon_hoc: 6, loai_cau_hoi: 2, so_luong_dap_an: 0 },
-                { id: 12, ten_cau_hoi: "Câu hỏi 12: Các loại khóa trong cơ sở dữ liệu?", id_mon_hoc: 6, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 13, ten_cau_hoi: "Câu hỏi 13: Hệ điều hành là gì?", id_mon_hoc: 7, loai_cau_hoi: 0, so_luong_dap_an: 0 },
-                { id: 14, ten_cau_hoi: "Câu hỏi 14: Các loại hệ điều hành phổ biến?", id_mon_hoc: 7, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 15, ten_cau_hoi: "Câu hỏi 15: IP là gì?", id_mon_hoc: 8, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 16, ten_cau_hoi: "Câu hỏi 16: Các tầng trong mô hình OSI?", id_mon_hoc: 8, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-                { id: 17, ten_cau_hoi: "Câu hỏi 17: Trí tuệ nhân tạo là gì?", id_mon_hoc: 9, loai_cau_hoi: 0, so_luong_dap_an: 0 },
-                { id: 18, ten_cau_hoi: "Câu hỏi 18: Các ứng dụng của AI?", id_mon_hoc: 9, loai_cau_hoi: 1, so_luong_dap_an: 4 },
-            ],
-            update: {
-                ten_cau_hoi     : "",
-                id_mon_hoc      : "",
-                loai_cau_hoi    : "",
-                so_luong_dap_an : "",
-            },
-            del: {
-                ten_cau_hoi     : "",
-            }
-        }
+            create: {},
+            update: {},
+            del: {},
+            subjects: [],
+            questions: [], // Thêm biến questions vào đây
+        };
     },
     mounted() {
         this.loadData();
+        this.loadDataMonHoc();
     },
     methods: {
-        loadData(){
+        loadDataMonHoc() {
+            axios
+                .get("http://127.0.0.1:8000/api/admin/mon-hoc/data")
+                .then((res) => {
+                    this.subjects = res.data.monhoc;
+                })
+                .catch((error) => {
+                    const subjects = Object.values(error.response.data.errors);
+                    subjects.forEach((v) => {
+                        this.$toast.error(v[0]);
+                    });
+                });
+        },
+        loadData() {
             axios
                 .get("http://127.0.0.1:8000/api/admin/cau-hoi/data")
                 .then((res) => {
-                    this.questions = res.data.cauhoi;
+                    this.questions = res.data.data; // Đảm bảo res.data.data có định dạng đúng
                 })
-                .catch((res) => {
-                    const questions = Object.values(res.response.data.errors);
-                    questions.forEach((v, i) => {
+                .catch((error) => {
+                    const questions = Object.values(error.response.data.errors);
+                    questions.forEach((v) => {
                         toast.error(v[0]);
                     });
                 });
         },
-        addCauHoi(){
-
+        addCauHoi() {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/cau-hoi/create", this.create)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.create = {
+                            id_mon_hoc: "",
+                            ten_cau_hoi: "",
+                            dap_an_dung: "",
+                            dap_an_a: "",
+                            dap_an_b: "",
+                            dap_an_c: "",
+                            dap_an_d: "",
+                            noi_dung_tra_loi: "",
+                            loai_cau_hoi: "",
+                            chuan_dau_ra: "",
+                        };
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const students = Object.values(res.response.data.errors);
+                    students.forEach((v, i) => {
+                        toast(v[0], {
+                            type: "error",
+                            position: "top-right",
+                        });
+                    });
+                });
         },
-        editCauHoi(){
-
+        editCauHoi() {
+            // Thêm logic cho chỉnh sửa câu hỏi
         },
-        delCauHoi(){
-            
-        }
+        delCauHoi() {
+            // Thêm logic cho xóa câu hỏi
+        },
     },
 }
 </script>
+
 <style></style>

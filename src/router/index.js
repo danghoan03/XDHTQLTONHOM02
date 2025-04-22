@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"; // cài vue-router: npm install vue-router@next --save
+import checkadminlogin from "./checkadminlogin";
 
 const routes = [
     //Route chính
@@ -24,7 +25,12 @@ const routes = [
         component: ()=>import('../layout/wrapper/index.vue'),
         meta :  {layout :   "default"},
         children: [
-            {path : 'homepage', component: ()=>import('../components/Admin/HomePage/index.vue')},
+            {
+                path: 'homepage',
+                component: () => import('../components/Admin/HomePage/index.vue'),
+                meta: { layout: "blank" },
+                beforeEnter: checkadminlogin,
+            },
             {path : 'giang-vien', component: ()=>import('../components/Admin/GiangVien/index.vue')},
             {path : 'sinh-vien', component: ()=>import('../components/Admin/SinhVien/index.vue')},
             {path : 'lop-hoc', component: ()=>import('../components/Admin/LopHoc/index.vue')},
@@ -33,6 +39,7 @@ const routes = [
             {path : 'cau-hoi', component: ()=>import('../components/Admin/CauHoi/index.vue')},
             {path : 'bai-thi', component: ()=>import('../components/Admin/BaiThi/index.vue')},
             {path : 'khoa', component: ()=>import('../components/Admin/Khoa/index.vue')},
+            {path : 'login', component: ()=>import('../components/Admin/Login/index.vue')},
         ]
     },
     //NHÓM ROUTE CHO GIẢNG VIÊN
