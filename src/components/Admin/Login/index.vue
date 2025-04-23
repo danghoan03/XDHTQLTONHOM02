@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="d-sm-flex justify-content-between">
                                     <div class="field-wrapper">
-                                        <button v-on:click="dangNhap()" type="submit" class="btn btn-primary"
+                                        <button v-on:click="dangNhap()" type="button" class="btn btn-primary"
                                             value="">Đăng Nhập</button>
                                     </div>
                                 </div>
@@ -73,9 +73,9 @@ export default {
             }
         }
     },
-    mounted() {
-        this.kiemTraDangNhap();
-    },
+    // mounted() {
+    //     this.kiemTraDangNhap();
+    // },
     methods: {
         kiemTraDangNhap() {
             axios
