@@ -69,6 +69,7 @@ const routes = [
             {path : 'bai-thi', component: ()=>import('../components/SinhVien/BaiThi/index.vue')},
             {path : 'profile', component: ()=>import('../components/SinhVien/Profile/index.vue')},
             {path : 'mat-khau', component: ()=>import('../components/SinhVien/MatKhau/index.vue')},
+            {path : 'login', component: ()=>import('../components/SinhVien/Login/index.vue')},
         ]
     },
 ]
