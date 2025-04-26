@@ -338,7 +338,7 @@ export default {
         },
         loadDataGiangVien() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/giang-vien/data-open")
+                .get("http://127.0.0.1:8000/api/admin/lop-hoc/data-open-giang-vien")
                 .then((res) => {
                     this.teachers = res.data.giangvien;
                     this.allTeachers = res.data.giangvien; // lưu bản gốc để lọc

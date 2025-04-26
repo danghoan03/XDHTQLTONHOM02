@@ -29,8 +29,8 @@
                                             <td class="align-middle">{{ value.ten_khoa }}</td>
                                             <td class="align-middle">{{ value.ma_khoa }}</td>
                                             <td class="align-middle text-center">
-                                                <button v-if="value.trang_thai == 1" class="btn btn-success">Đang Hoạt Động</button>
-                                                <button v-else class="btn btn-warning">Ngưng Hoạt Động</button>
+                                                <button  v-on:click="doiTrangThai(value)" v-if="value.trang_thai == 1" class="btn btn-success">Đang Hoạt Động</button>
+                                                <button v-on:click="doiTrangThai(value)" v-else class="btn btn-warning">Ngưng Hoạt Động</button>
                                             </td>
                                             <td class="align-middle">{{ value.ghi_chu }}</td>
                                             <td class="align-middle text-center">
@@ -232,7 +232,26 @@ export default {
                     const errors = Object.values(err.response.data.errors);
                     errors.forEach(v => toast.error(v[0], { position: "top-right" }));
                 });
-        }
+        },
+        doiTrangThai(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/khoa/change-status", value)
+                .then((res) => {
+                    if (res.data.status) {
+                        this.loadData();
+                        toast(res.data.message, {
+                            type: "success",
+                            position: "top-right",
+                        });
+                    }
+                })
+                .catch((res) => {
+                    const list = Object.values(res.response.data.errors);
+                    list.forEach((v, i) => {
+                        this.$toast.error(v[0]);
+                    });
+                })
+        },
     }
 }
 </script>

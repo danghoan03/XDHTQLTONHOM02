@@ -6,8 +6,9 @@
                     <div class="d-flex justify-content-between align-items-center" style="margin-top: 10px;">
                         <h4 style="margin-left: 20px;" class="mb-0 mt-1"><b>Danh Sách Giảng Viên</b></h4>
                         <div class="d-flex align-items-center" style="margin-right: 20px;">
-                            <select class=" form-control form-select mr-2" style="width: 200px; padding: 6px; height: auto;"
-                                v-model="selectedKhoa" @change="filterByKhoa">
+                            <select class=" form-control form-select mr-2"
+                                style="width: 200px; padding: 6px; height: auto;" v-model="selectedKhoa"
+                                @change="filterByKhoa">
                                 <option value="">-- Sắp xếp theo Khoa --</option>
                                 <option v-for="khoa in list_khoa" :key="khoa.id" :value="khoa.id">
                                     {{ khoa.ten_khoa }}
@@ -32,8 +33,7 @@
                                                     placeholder="Search...">
                                                 <span class="position-absolute top-50 search-show translate-middle-y"
                                                     style="left: 15px;"><i class="bx bx-search"></i></span>
-                                                <button v-on:click="timKiem()" class="btn btn-warning"
-                                                    type="button">Tìm
+                                                <button v-on:click="timKiem()" class="btn btn-warning" type="button">Tìm
                                                     Kiếm</button>
                                             </div>
                                         </th>
@@ -183,14 +183,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="mb-2">
+
+                            <div class="mb-2" style="flex-direction: column; display: flex; align-items: flex-start; ">
                                 <label class="text-dark"><b>Ảnh đại diện</b></label>
-                                <!-- Thêm input chọn ảnh trong modal update -->
-                                <input type="file" class="form-control" @change="onFileChange($event)">
-
-
+                                <img v-if="editGV.anh_dai_dien" :src="editGV.anh_dai_dien" width="150" height="150"
+                                    class="mt-2" alt="Preview">
+                                <input type="file" class="form-control mt-2" @change="onFileChange($event)">
                             </div>
-
                             <div class="mb-2">
                                 <label class="text-dark"><b>Họ và tên</b></label>
                                 <input v-model="editGV.ho_va_ten" class="form-control" type="text">
@@ -204,7 +203,7 @@
                                 <input v-model="editGV.so_dien_thoai" class="form-control" type="text">
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="margin-top: 21%;">
                             <div class="mb-2">
                                 <label class="text-dark"><b>Số căn cước</b></label>
                                 <input v-model="editGV.can_cuoc" class="form-control" type="text">
@@ -334,26 +333,36 @@ export default {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    // Cập nhật base64 cho phần chỉnh sửa ảnh nếu có
+                    const base64Image = e.target.result; // Lấy ảnh dạng base64
+
                     if (type === 'create') {
-                        this.create.anh_dai_dien = e.target.result;
+                        // Cập nhật cho đối tượng create (dùng cho modal Add)
+                        this.create.anh_dai_dien = base64Image;
                     } else {
-                        this.editGV.anh_dai_dien = e.target.result;
+                        // Cập nhật cho đối tượng editGV (dùng cho modal Edit)
+                        this.editGV.anh_dai_dien = base64Image;
+
+                        // Cập nhật ảnh trong mảng teachers để hiển thị ngay lập tức
+                        if (this.editGV.id) {
+                            const index = this.teachers.findIndex(teacher => teacher.id === this.editGV.id);
+                            if (index !== -1) {
+                                this.teachers[index].anh_dai_dien = base64Image; // Cập nhật ảnh đại diện
+                            }
+                        }
                     }
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(file); // Đọc file thành base64
             }
-        }
+        },
 
-        ,
 
 
         KhoaData() {
             axios.get("http://127.0.0.1:8000/api/admin/khoa/data", {
-                    headers : {
-                        Authorization: 'Bearer ' + localStorage.getItem("key_admin")
-                    }
-                })
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("key_admin")
+                }
+            })
                 .then((res) => {
                     this.list_khoa = res.data.data;
                 })
@@ -363,8 +372,8 @@ export default {
         },
         loadData() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/giang-vien/data",{
-                    headers : {
+                .get("http://127.0.0.1:8000/api/admin/giang-vien/data", {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
@@ -386,8 +395,8 @@ export default {
             // Gán mã giảng viên đã tạo cho create.ma_giang_vien
             this.create.ma_giang_vien = maGiangVien;
             axios
-                .post("http://127.0.0.1:8000/api/admin/giang-vien/create", this.create,{
-                    headers : {
+                .post("http://127.0.0.1:8000/api/admin/giang-vien/create", this.create, {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
@@ -421,8 +430,8 @@ export default {
         editGiangVien() {
 
             axios
-                .post("http://127.0.0.1:8000/api/admin/giang-vien/update", this.editGV,{
-                    headers : {
+                .post("http://127.0.0.1:8000/api/admin/giang-vien/update", this.editGV, {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
@@ -444,8 +453,8 @@ export default {
         },
         delGiangVien() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/giang-vien/delete", this.delGV,{
-                    headers : {
+                .post("http://127.0.0.1:8000/api/admin/giang-vien/delete", this.delGV, {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
@@ -467,8 +476,8 @@ export default {
         },
         timKiem() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/giang-vien/search", this.search,{
-                    headers : {
+                .post("http://127.0.0.1:8000/api/admin/giang-vien/search", this.search, {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
@@ -484,8 +493,8 @@ export default {
         },
         doiTrangThai(value) {
             axios
-                .post("http://127.0.0.1:8000/api/admin/giang-vien/change-status", value,{
-                    headers : {
+                .post("http://127.0.0.1:8000/api/admin/giang-vien/change-status", value, {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })

@@ -7,8 +7,12 @@
 import "../../assets/js/libs/jquery-3.1.1.min.js";
 import "../../assets/bootstrap/js/bootstrap.min.js";
 import "../../assets/js/app.js";
+
 export default {
-    name        :   "#login",
+    name        :   "#app",
+    components  :   {
+    
+    }
 }
 </script>
 <style>

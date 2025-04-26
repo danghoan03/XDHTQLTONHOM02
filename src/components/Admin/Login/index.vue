@@ -19,7 +19,7 @@
                                     </svg>
                                     <input v-model="tai_Khoan.email" type="text" class="form-control"
                                         placeholder="...@gmail.com" autocomplete="username">
-
+                                    
                                 </div>
                                 <div id="password-field" class="field-wrapper input mb-2">
                                     <div class="d-flex justify-content-between">
@@ -33,16 +33,16 @@
                                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                     </svg>
-                                   
-                                        <input v-model="tai_Khoan.password" type="password" class="form-control" placeholder="Password" autocomplete="current-password">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" id="toggle-password"
-                                            class="feather feather-eye">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
+                                    <input v-model="tai_Khoan.password" type="password" class="form-control"
+                                        placeholder="Password" autocomplete="current-password">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" id="toggle-password" class="feather feather-eye">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
                                 </div>
                                 <div class="d-sm-flex justify-content-between">
                                     <div class="field-wrapper">
@@ -79,13 +79,13 @@ export default {
     methods: {
         kiemTraDangNhap() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/checklogin" , {
-                    headers : {
+                .get("http://127.0.0.1:8000/api/admin/checklogin", {
+                    headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("key_admin")
                     }
                 })
                 .then((res) => {
-                    if(res.data.status) {
+                    if (res.data.status) {
                         this.$router.push('/admin/giang-vien')
                     }
                 });
@@ -96,7 +96,11 @@ export default {
                 .then((res) => {
                     if (res.data.status === 1) {
                         toast.success(res.data.message);
+                        // Lưu token và thông tin user vào localStorage
                         localStorage.setItem("key_admin", res.data.key);
+                        localStorage.setItem("username", res.data.username);
+                        localStorage.setItem("email", res.data.email);
+
                         this.$router.push('/admin/giang-vien'); // hoặc route bạn muốn
                     } else {
                         toast.error(res.data.message);
@@ -109,6 +113,7 @@ export default {
                     });
                 });
         }
+
     }
 }
 </script>

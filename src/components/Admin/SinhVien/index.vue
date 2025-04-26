@@ -54,8 +54,9 @@
                                             <th class="align-middle text-center">{{ index + 1 }}</th>
                                             <td class="text-center">
                                                 <span>
-                                                    <img v-bind:src="value.anh_dai_dien" width="40" height="40"
-                                                        class="rounded-circle profile-img" alt="avatar">
+                                                    <img v-bind:src="value.anh_dai_dien" width="100" height="100"
+                                                        alt="avatar">
+
                                                 </span>
                                             </td>
                                             <td class="align-middle">{{ value.ho_va_ten }}</td>
@@ -104,6 +105,10 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="text-dark"><b>Ảnh đại diện</b></label>
+                                <input type="file" class="form-control" @change="onFileChange($event, 'create')">
+                            </div>
                             <div class="mb-2">
                                 <label class="text-dark"><b>Họ và tên</b></label>
                                 <input v-model="create.ho_va_ten" class="form-control" type="text">
@@ -166,6 +171,12 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="mb-2">
+                                <div class="mb-2">
+                                <label class="text-dark"><b>Ảnh đại diện</b></label>
+                                <input type="file" class="form-control" @change="onFileChange($event)">
+                                <img v-if="editSV.anh_dai_dien" :src="editSV.anh_dai_dien" width="100" height="100"
+                                    class="mt-2" alt="Preview">
+                            </div>
                                 <label class="text-dark"><b>Họ và tên</b></label>
                                 <input v-model="editSV.ho_va_ten" class="form-control" type="text">
                             </div>
@@ -287,7 +298,33 @@ export default {
         this.loadDataKhoa();
     },
     methods: {
-        
+        onFileChange(event, type = '') {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64Image = e.target.result; // Lấy ảnh dạng base64
+
+                    if (type === 'create') {
+                        // Cập nhật cho đối tượng create (dùng cho modal Add)
+                        this.create.anh_dai_dien = base64Image;
+                    } else {
+                        // Cập nhật cho đối tượng editGV (dùng cho modal Edit)
+                        this.editSV.anh_dai_dien = base64Image;
+
+                        // Cập nhật ảnh trong mảng teachers để hiển thị ngay lập tức
+                        if (this.editSV.id) {
+                            const index = this.teachers.findIndex(student => student.id === this.editSV.id);
+                            if (index !== -1) {
+                                this.teachers[index].anh_dai_dien = base64Image; // Cập nhật ảnh đại diện
+                            }
+                        }
+                    }
+                };
+                reader.readAsDataURL(file); // Đọc file thành base64
+            }
+        },
+
         loadData() {
             axios
                 .get("http://127.0.0.1:8000/api/admin/sinh-vien/data")
